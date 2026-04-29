@@ -1,0 +1,14 @@
+/* Template Classic – 3-column horizontal layout */
+.persona-card[data-template="classic"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ── Vertical: center avatar, name, role in left column ─────────────────── */
+.persona-card[data-template="classic"].vertical .col-left .avatar {
+  margin-left: auto;
+  margin-right: auto;
+}
+.persona-card[data-template="classic"].vertical .col-left .persona-name,
+.persona-card[data-template="classic"].vertical .col-left .persona-role {
+  text-align: center;
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="pageTitle">User Persona Creator</title>
+
+  <link rel="stylesheet" href="src/css/base.css" />
+  <link rel="stylesheet" href="src/css/editor.css" />
+  <link rel="stylesheet" href="src/css/card-shared.css" />
+  <link rel="stylesheet" href="src/templates/classic/classic.css" />
+  <link rel="stylesheet" href="src/templates/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="src/templates/cover/cover.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Editor sidebar ──────────────────────────────────────────────── -->
+    <aside class="editor">
+
+      <!-- Scrollable body -->
+      <div class="editor-body">
+
+        <header class="editor-header">
+          <div class="header-row">
+            <h1>User Persona</h1>
+            <div class="lang-toggle" id="langToggle">
+              <button type="button" data-lang="en" class="active">EN</button>
+              <button type="button" data-lang="es">ES</button>
+            </div>
+          </div>
+          <p data-i18n="appSubtitle">Fill in the data and export the image.</p>
+        </header>
+
+        <!-- Display controls -->
+        <div class="display-controls">
+
+          <!-- Template selector -->
+          <div class="control-row">
+            <span class="control-label" data-i18n="labelTemplate">Template</span>
+            <div class="pill-selector" id="templateSelector">
+              <button type="button" data-template="classic" class="active">Classic</button>
+              <button type="button" data-template="sidebar">Sidebar</button>
+              <button type="button" data-template="cover">Cover</button>
+            </div>
+          </div>
+
+          <!-- Layout + Dark Mode on the same row -->
+          <div class="control-row">
+            <span class="control-label" data-i18n="labelLayout">Layout</span>
+            <div class="pill-selector" id="orientationToggle">
+              <button type="button" data-orient="horizontal" class="active" data-i18n="btnHorizontal">↔ Horiz.</button>
+              <button type="button" data-orient="vertical" data-i18n="btnVertical">↕ Vert.</button>
+            </div>
+          </div>
+
+          <!-- Dark mode toggles -->
+          <div class="control-row">
+            <span class="control-label" data-i18n="labelDarkMode">Dark Mode</span>
+            <div class="control-row">
+              <div class="toggle-group">
+                <span class="toggle-group-label" data-i18n="labelAppTheme">App</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="appDarkToggle" />
+                  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                </label>
+              </div>
+              <div class="toggle-group">
+                <span class="toggle-group-label" data-i18n="labelCardTheme">Card</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="cardDarkToggle" />
+                  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Appearance -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionAppearance">Appearance</h2>
+          <label class="field">
+            <span data-i18n="labelPrimaryColor">Primary color</span>
+            <input type="color" id="primaryColor" value="#7C3AED" />
+          </label>
+          <div class="color-presets" id="colorPresets"></div>
+          <label class="field field-spaced">
+            <span data-i18n="labelPhoto">Photo</span>
+            <input type="file" id="photoInput" accept="image/*" />
+          </label>
+        </section>
+
+        <!-- Personal data -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionPersonal">Personal data</h2>
+          <label class="field"><span data-i18n="labelName">Name</span><input type="text" id="name" /></label>
+          <label class="field"><span data-i18n="labelRole">Role</span><input type="text" id="role" /></label>
+          <div class="grid-2">
+            <label class="field"><span data-i18n="labelAge">Age</span><input type="text" id="age" /></label>
+            <label class="field"><span data-i18n="labelLocation">Location</span><input type="text" id="location" /></label>
+            <label class="field"><span data-i18n="labelPosition">Position</span><input type="text" id="position" /></label>
+            <label class="field"><span data-i18n="labelEducation">Education</span><input type="text" id="education" /></label>
+            <label class="field"><span data-i18n="labelGender">Gender</span><input type="text" id="gender" /></label>
+            <label class="field"><span data-i18n="labelMaritalStatus">Marital status</span><input type="text" id="maritalStatus" /></label>
+          </div>
+          <label class="field">
+            <span data-i18n="labelChips">Auxiliary data (chips, comma separated)</span>
+            <input type="text" id="chips" />
+          </label>
+        </section>
+
+        <!-- Behavior -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionBehavior">Behavior</h2>
+          <label class="field">
+            <textarea id="behavior" rows="4"></textarea>
+          </label>
+        </section>
+
+        <!-- Goals -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionGoals">Milestones and needs</h2>
+          <label class="field">
+            <span data-i18n="hintOnePerLine">One per line</span>
+            <textarea id="goals" rows="4"></textarea>
+          </label>
+        </section>
+
+        <!-- Pain points -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionPainPoints">Pain points</h2>
+          <label class="field">
+            <span data-i18n="hintOnePerLine">One per line</span>
+            <textarea id="painPoints" rows="4"></textarea>
+          </label>
+        </section>
+
+        <!-- Personality -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionPersonality">Personality</h2>
+          <p class="hint" data-i18n="hintPersonality">Value 0–100 (bar position).</p>
+          <div id="personalityList" class="dynamic-list"></div>
+        </section>
+
+        <!-- Motivations -->
+        <section class="editor-section">
+          <h2 data-i18n="sectionMotivations">Motivations</h2>
+          <p class="hint" data-i18n="hintMotivations">Value 0–10 (filled dots).</p>
+          <div id="motivationsList" class="dynamic-list"></div>
+        </section>
+
+      </div><!-- /editor-body -->
+
+      <!-- Fixed footer: action buttons always visible -->
+      <div class="editor-footer">
+        <div class="actions">
+          <button id="exportBtn" class="btn btn-primary" data-i18n="btnExportPNG">Export PNG</button>
+          <button id="resetBtn" class="btn btn-ghost" data-i18n="btnReset">Reset</button>
+        </div>
+        <div class="actions">
+          <button id="exportJsonBtn" class="btn btn-secondary" data-i18n="btnExportJSON">Export JSON</button>
+          <button id="importJsonBtn" class="btn btn-secondary" data-i18n="btnImportJSON">Import JSON</button>
+          <input type="file" id="importJsonInput" accept="application/json,.json" hidden />
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── Preview area ─────────────────────────────────────────────────── -->
+    <main class="preview">
+      <div class="preview-wrapper">
+        <div class="persona-card" id="personaCard" data-template="classic"></div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script type="module" src="src/js/app.js"></script>
+</body>
+</html>

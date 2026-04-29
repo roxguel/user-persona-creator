@@ -1,0 +1,183 @@
+/* Template Cover – Full-cover photo left panel + dense right column */
+.persona-card[data-template="cover"] {
+  grid-template-columns: 300px 1fr;
+  padding: 0;
+  overflow: hidden;
+  min-height: 480px;
+}
+
+/* ── Left panel (full-cover photo) ─────────────────────────────────────── */
+.persona-card[data-template="cover"] .tc-left {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(0, 0, 0, 0.35) 0%, transparent 60%), var(--primary);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cover photo */
+.persona-card[data-template="cover"] .tc-cover-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: none;
+  z-index: 0;
+}
+.persona-card[data-template="cover"] .tc-cover-photo.loaded {
+  display: block;
+}
+
+/* Fallback initials (shown when no photo) */
+.persona-card[data-template="cover"] .tc-cover-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  z-index: 1;
+  pointer-events: none;
+}
+.persona-card[data-template="cover"] .tc-cover-photo.loaded ~ .tc-cover-fallback {
+  display: none;
+}
+
+/* Name overlay at the bottom */
+.persona-card[data-template="cover"] .tc-name-area {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, transparent 100%);
+  padding: 48px 28px 28px;
+}
+
+.persona-card[data-template="cover"] .tc-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.persona-card[data-template="cover"] .tc-role {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Right panel ────────────────────────────────────────────────────────── */
+.persona-card[data-template="cover"] .tc-right {
+  padding: 36px 40px;
+  overflow-y: auto;
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Personal data header row ───────────────────────────────────────────── */
+.persona-card[data-template="cover"] .tc-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.persona-card[data-template="cover"] .tc-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.persona-card[data-template="cover"] .tc-stat-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.persona-card[data-template="cover"] .tc-stat-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: var(--primary);
+}
+
+/* ── Two-column body ────────────────────────────────────────────────────── */
+.persona-card[data-template="cover"] .tc-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 28px;
+  flex: 1;
+}
+
+/* ── Right content sections ─────────────────────────────────────────────── */
+.persona-card[data-template="cover"] .tc-right .section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--primary);
+  display: inline-block;
+}
+
+.persona-card[data-template="cover"] .tc-right .block {
+  margin-bottom: 20px;
+}
+
+/* Tags/chips ────────────────────────────────────────────────────────────── */
+.persona-card[data-template="cover"] .tc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.persona-card[data-template="cover"] .tc-tag {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── Dark mode overrides ────────────────────────────────────────────────── */
+.persona-card[data-template="cover"].card-dark .tc-right {
+  background: var(--card-bg);
+}
+.persona-card[data-template="cover"].card-dark .tc-header {
+  border-color: var(--border);
+}
+
+/* ── Vertical override ──────────────────────────────────────────────────── */
+.persona-card[data-template="cover"].vertical {
+  grid-template-columns: 1fr !important;
+}
+.persona-card[data-template="cover"].vertical .tc-left {
+  min-height: 280px;
+  flex-direction: row;
+}
+.persona-card[data-template="cover"].vertical .tc-name-area {
+  width: 100%;
+  padding: 32px 24px 20px;
+}
+.persona-card[data-template="cover"].vertical .tc-columns {
+  grid-template-columns: 1fr;
+}

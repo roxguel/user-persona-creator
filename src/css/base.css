@@ -1,0 +1,54 @@
+/* ── CSS Variables – Light theme (default) ─────────────────────────────── */
+:root {
+  --primary: #7C3AED;
+  --primary-soft: rgba(124, 58, 237, 0.12);
+  --bg: #f4f5f8;
+  --bg-tint: #f4f1fb;
+  --panel: #ffffff;
+  --text: #1f2329;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.25), 0 8px 20px -8px rgba(15, 23, 42, 0.15);
+}
+
+/* ── App dark theme – affects editor + preview background only ──────────── */
+[data-app-theme="dark"] {
+  --bg: #121212;
+  --bg-tint: #1a1a1a;
+  --panel: #1e1e1e;
+  --text: #e8e8e8;
+  --muted: #909090;
+  --border: #333333;
+  --card-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.6), 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+  /* Note: --card-bg is NOT overridden here — card isolation is in card-shared.css */
+}
+
+/* ── Reset & base ───────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  height: 100%;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* ── App shell grid — fixed viewport height, no outer scroll ────────────── */
+.app {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+  .app {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+}
