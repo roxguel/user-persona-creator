@@ -2,6 +2,59 @@ import { state, currentLang, TEXT_FIELD_IDS, clone, clamp, setCurrentLang } from
 import { I18N } from './i18n.js';
 import { tintFromHex, darkTintFromHex } from './color.js';
 
+// html2canvas no respeta object-fit:cover sobre <img>, las estira.
+// Workaround: para el snapshot reemplazamos cada <img> por un <div> con
+// background-image equivalente (background-size sí lo respeta correctamente).
+function convertImagesToBackgrounds(rootEl) {
+  const imgs = Array.from(rootEl.querySelectorAll('img'));
+  imgs.forEach(img => {
+    const src = img.getAttribute('src');
+    if (!src) return;
+
+    const cs = getComputedStyle(img);
+    const objectFit = cs.objectFit || 'cover';
+    const objectPosition = cs.objectPosition || 'center center';
+
+    const div = document.createElement('div');
+    if (img.id) div.id = img.id;
+    if (img.className) div.className = img.className;
+
+    // Propiedades de layout que el div necesita para ocupar el mismo lugar
+    const propsToCopy = [
+      'position', 'top', 'right', 'bottom', 'left',
+      'width', 'height',
+      'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+      'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+      'border-radius', 'border-top-left-radius', 'border-top-right-radius',
+      'border-bottom-left-radius', 'border-bottom-right-radius',
+      'flex-shrink', 'z-index', 'box-sizing', 'overflow'
+    ];
+    propsToCopy.forEach(p => {
+      const v = cs.getPropertyValue(p);
+      if (v) div.style.setProperty(p, v);
+    });
+    div.style.display = 'block';
+
+    div.style.backgroundImage = `url("${src}")`;
+    div.style.backgroundSize = objectFit === 'cover' ? 'cover'
+                              : objectFit === 'contain' ? 'contain'
+                              : objectFit === 'fill' ? '100% 100%'
+                              : 'cover';
+    div.style.backgroundPosition = objectPosition;
+    div.style.backgroundRepeat = 'no-repeat';
+
+    img.replaceWith(div);
+
+    // Si había foto cargada, los fallbacks (iniciales) deben quedar ocultos
+    // — los selectores CSS ya no los apagan porque el sibling ahora es <div>
+    const parent = div.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.avatar-fallback, .tc-cover-fallback')
+        .forEach(el => { el.style.display = 'none'; });
+    }
+  });
+}
+
 export async function exportPNG() {
   const card = document.getElementById('personaCard');
   const btn = document.getElementById('exportBtn');
@@ -35,6 +88,9 @@ export async function exportPNG() {
 
   wrapper.appendChild(cloneCard);
   document.body.appendChild(wrapper);
+
+  // Reemplazar imágenes por divs con background-image (workaround html2canvas)
+  convertImagesToBackgrounds(cloneCard);
 
   try {
     const canvas = await html2canvas(wrapper, {
